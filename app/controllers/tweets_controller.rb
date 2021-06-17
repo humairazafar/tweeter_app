@@ -12,5 +12,21 @@ class TweetsController < ApplicationController
     
     end
 
+    def create
+      tweet = Tweet.new(tweet_params)
 
-end
+      if tweet.save
+        render json: {tweet: tweet}
+       else
+        render(status: 422, json: {tweet: tweet, errors: tweet.errors})
+       end
+    end
+
+    private
+
+    def tweet_params
+     params.required(:tweet).permit(:title, :author, :content)
+    
+    end
+
+  end
